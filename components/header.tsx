@@ -28,29 +28,32 @@ export function Header() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-6">
-          <Link href="#about" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">
+          <Link href="/" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">
+            Home
+          </Link>
+          <Link href="/about" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">
             About
           </Link>
           <Link
-            href="#services"
+            href="/services"
             className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
           >
             Services
           </Link>
           <Link
-            href="#portfolio"
+            href="/projects"
             className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
           >
             Projects
           </Link>
-          <Link href="#contact" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">
+          <Link href="/contact" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">
             Contact
           </Link>
         </nav>
 
         <div className="flex items-center gap-3">
           <Button asChild className="hidden sm:flex bg-accent text-accent-foreground hover:bg-accent/90 font-semibold">
-            <Link href="#contact">Request Quotation</Link>
+            <Link href="/contact">Request Quotation</Link>
           </Button>
 
           <button
@@ -67,28 +70,35 @@ export function Header() {
         <div className="md:hidden border-t border-border bg-white/95 backdrop-blur-md">
           <nav className="container py-4 flex flex-col gap-4">
             <Link
-              href="#about"
+              href="/"
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-base font-medium text-foreground/80 hover:text-primary transition-colors py-2"
+            >
+              Home
+            </Link>
+            <Link
+              href="/about"
               onClick={() => setMobileMenuOpen(false)}
               className="text-base font-medium text-foreground/80 hover:text-primary transition-colors py-2"
             >
               About
             </Link>
             <Link
-              href="#services"
+              href="/services"
               onClick={() => setMobileMenuOpen(false)}
               className="text-base font-medium text-foreground/80 hover:text-primary transition-colors py-2"
             >
               Services
             </Link>
             <Link
-              href="#portfolio"
+              href="/projects"
               onClick={() => setMobileMenuOpen(false)}
               className="text-base font-medium text-foreground/80 hover:text-primary transition-colors py-2"
             >
               Projects
             </Link>
             <Link
-              href="#contact"
+              href="/contact"
               onClick={() => setMobileMenuOpen(false)}
               className="text-base font-medium text-foreground/80 hover:text-primary transition-colors py-2"
             >
@@ -98,7 +108,7 @@ export function Header() {
               asChild
               className="sm:hidden bg-accent text-accent-foreground hover:bg-accent/90 font-semibold w-full"
             >
-              <Link href="#contact" onClick={() => setMobileMenuOpen(false)}>
+              <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
                 Request Quote
               </Link>
             </Button>

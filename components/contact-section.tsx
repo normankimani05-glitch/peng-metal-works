@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Mail, Phone, MapPin } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useToast } from "@/hooks/use-toast"
 
 export function ContactSection() {
@@ -22,15 +22,26 @@ export function ContactSection() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { toast } = useToast()
+  const [banner, setBanner] = useState<null | { type: "success" | "error"; text: string }>(null)
+  const [isFading, setIsFading] = useState(false)
+
+  // Auto-hide banner after 8 seconds with fade-out
+  useEffect(() => {
+    if (!banner) return
+    setIsFading(false)
+    const fadeTimer = setTimeout(() => setIsFading(true), 7500)
+    const hideTimer = setTimeout(() => setBanner(null), 8300)
+    return () => {
+      clearTimeout(fadeTimer)
+      clearTimeout(hideTimer)
+    }
+  }, [banner])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    console.log("[v0] Form submitted with data:", formData)
-
     try {
-      console.log("[v0] Sending request to /api/contact...")
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
@@ -38,17 +49,17 @@ export function ContactSection() {
         },
         body: JSON.stringify(formData),
       })
-
-      console.log("[v0] Response status:", response.status)
       const responseData = await response.json()
-      console.log("[v0] Response data:", responseData)
 
       if (response.ok) {
-        console.log("[v0] Form submission successful!")
         toast({
           title: "Success!",
           description: "Your request has been submitted successfully. We'll get back to you within 24 hours.",
           duration: 5000,
+        })
+        setBanner({
+          type: "success",
+          text: "Your request has been submitted successfully. We'll get back to you within 24 hours.",
         })
         // Reset form
         setFormData({
@@ -62,12 +73,15 @@ export function ContactSection() {
         throw new Error(responseData.error || "Submission failed")
       }
     } catch (error) {
-      console.error("[v0] Form submission error:", error)
       toast({
         title: "Error",
         description: "Failed to submit your request. Please try again or contact us directly.",
         variant: "destructive",
         duration: 5000,
+      })
+      setBanner({
+        type: "error",
+        text: "Failed to submit your request. Please contact us at +254 722 291 560.",
       })
     } finally {
       setIsSubmitting(false)
@@ -90,6 +104,26 @@ export function ContactSection() {
 
   return (
     <section id="contact" className="py-20 bg-white">
+      {banner && (
+        <div
+          className={`${banner.type === "success" ? "bg-green-600" : "bg-red-600"} fixed top-20 left-0 right-0 z-[60] text-white transition-opacity duration-700 ${
+            isFading ? "opacity-0" : "opacity-100"
+          }`}
+          role="status"
+          aria-live="polite"
+        >
+          <div className="container py-2 flex items-center justify-between gap-4">
+            <span className="text-sm md:text-base">{banner.text}</span>
+            <button
+              onClick={() => setBanner(null)}
+              className="text-white/90 hover:text-white text-sm font-medium"
+              aria-label="Dismiss message"
+            >
+              Dismiss
+            </button>
+          </div>
+        </div>
+      )}
       <div className="container">
         <div className="text-center mb-12">
           <h2 className="text-balance font-bold text-3xl md:text-4xl mb-4 text-primary">Contact Us</h2>

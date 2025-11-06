@@ -1,54 +1,52 @@
 import { NextResponse } from "next/server";
 
-export async function POST(request: Request) {
-  console.log("🐛 Contact form hit!");
+export const runtime = "nodejs";
 
+export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { name, email, phone, service, message } = body;
 
-    // ✅ Validate
     if (!name || !email || !service || !message) {
-      return NextResponse.json({ success: false, error: "Fill all fields!" }, { status: 400 });
+      return NextResponse.json({ success: false, error: "All fields required" }, { status: 400 });
     }
 
-    // ✅ SEND EMAIL (NO SDK NEEDED!)
-    const emailRes = await fetch("https://api.resend.com/emails", {
+    const formspreeId = process.env.FORMSPREE_ID;
+    if (!formspreeId) {
+      return NextResponse.json(
+        { success: false, error: "Server email config missing", missing: ["FORMSPREE_ID"] },
+        { status: 500 }
+      );
+    }
+
+    const endpoint = `https://formspree.io/f/${formspreeId}`;
+    const payload = {
+      name: String(name).trim(),
+      email: String(email).trim(),
+      phone: phone || "Not provided",
+      service,
+      message,
+      _subject: `New website inquiry: ${service}`,
+    };
+
+    const resp = await fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        Accept: "application/json",
       },
-      body: JSON.stringify({
-        from: "Peng MW <onboarding@resend.dev>",
-        to: "njorogenorman99@gmail.com",
-        reply_to: email,
-        subject: `🛠️ New Lead: ${service}`,
-        html: `
-          <h1>🚀 New Contact!</h1>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Phone:</strong> ${phone || 'N/A'}</p>
-          <p><strong>Service:</strong> ${service}</p>
-          <p><strong>Message:</strong><br>${message.replace(/\n/g, '<br>')}</p>
-          <hr>
-          <p><em>Reply NOW! 🎯</em></p>
-        `,
-      }),
+      body: JSON.stringify(payload),
     });
 
-    const data = await emailRes.json();
-
-    if (!emailRes.ok) {
-      console.error("❌ Resend failed:", data);
-      return NextResponse.json({ success: false, error: "Email failed. Try again!" }, { status: 500 });
+    if (!resp.ok) {
+      const text = await resp.text();
+      console.error("Formspree error: ", text);
+      return NextResponse.json({ success: false, error: "Failed to send" }, { status: 500 });
     }
 
-    console.log("✅ EMAIL SENT! ID:", data.id);
-    return NextResponse.json({ success: true, message: "Sent! We'll reply FAST 🚀" });
-
-  } catch (err: any) {
-    console.error("💥 ERROR:", err);
-    return NextResponse.json({ success: false, error: "Server oops!" }, { status: 500 });
+    return NextResponse.json({ success: true, message: "Sent!" });
+  } catch (error) {
+    console.error("Crash:", error);
+    return NextResponse.json({ success: false, error: "Server error" }, { status: 500 });
   }
 }
