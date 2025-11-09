@@ -10,9 +10,11 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Mail, Phone, MapPin } from "lucide-react"
 import { useState, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
 
 export function ContactSection() {
+  const searchParams = useSearchParams()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -24,6 +26,7 @@ export function ContactSection() {
   const { toast } = useToast()
   const [banner, setBanner] = useState<null | { type: "success" | "error"; text: string }>(null)
   const [isFading, setIsFading] = useState(false)
+  const [serviceError, setServiceError] = useState(false)
 
   // Auto-hide banner after 8 seconds with fade-out
   useEffect(() => {
@@ -37,9 +40,30 @@ export function ContactSection() {
     }
   }, [banner])
 
+  // Prefill from URL query params
+  useEffect(() => {
+    if (!searchParams) return
+    const svc = searchParams.get("service") || ""
+    const msg = searchParams.get("message") || ""
+    if (!svc && !msg) return
+    setFormData((prev) => ({
+      ...prev,
+      service: svc || prev.service,
+      message: msg || prev.message,
+    }))
+  }, [searchParams])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+
+    if (!formData.service) {
+      setServiceError(true)
+      setBanner({ type: "error", text: "Please select a Service Needed before submitting." })
+      ;(typeof window !== "undefined") && document.getElementById("service")?.focus()
+      setIsSubmitting(false)
+      return
+    }
 
     try {
       const response = await fetch("/api/contact", {
@@ -100,10 +124,11 @@ export function ContactSection() {
       ...prev,
       service: value,
     }))
+    if (value) setServiceError(false)
   }
 
   return (
-    <section id="contact" className="py-20 bg-white">
+    <section id="contact" className="pt-10 pb-20 bg-white">
       {banner && (
         <div
           className={`${banner.type === "success" ? "bg-green-600" : "bg-red-600"} fixed top-20 left-0 right-0 z-[60] text-white transition-opacity duration-700 ${
@@ -125,8 +150,8 @@ export function ContactSection() {
         </div>
       )}
       <div className="container">
-        <div className="text-center mb-12">
-          <h2 className="text-balance font-bold text-3xl md:text-4xl mb-4 text-primary">Contact Us</h2>
+        <div className="text-center mb-8">
+          <h2 className="text-balance font-bold text-3xl md:text-4xl mb-3 text-primary">Contact Us</h2>
           <p className="text-pretty text-lg text-foreground/70 max-w-2xl mx-auto">
             Ready to start your project? Get in touch with us today.
           </p>
@@ -173,7 +198,7 @@ export function ContactSection() {
                     <div className="space-y-2">
                       <Label htmlFor="service">Service Needed</Label>
                       <Select value={formData.service} onValueChange={handleServiceChange} required>
-                        <SelectTrigger id="service">
+                        <SelectTrigger id="service" className={serviceError ? "ring-2 ring-red-500 border-red-500" : ""} aria-invalid={serviceError}>
                           <SelectValue placeholder="Select a service" />
                         </SelectTrigger>
                         <SelectContent>
@@ -234,7 +259,7 @@ export function ContactSection() {
                   <MapPin className="h-5 w-5 text-primary mt-0.5" />
                   <div>
                     <p className="font-medium">Location</p>
-                    <p className="text-sm text-muted-foreground">Kawangware, Nairobi, Kenya</p>
+                    <p className="text-sm text-muted-foreground">Kawangware & Zambezi, Nairobi, Kenya</p>
                   </div>
                 </div>
               </CardContent>

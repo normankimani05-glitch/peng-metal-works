@@ -5,6 +5,8 @@ import { Wrench, Building2, Boxes, Truck } from "lucide-react"
 import { useState } from "react"
 import Image from "next/image"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 const services = [
   {
@@ -106,10 +108,10 @@ export function ServicesSection() {
   const [selectedService, setSelectedService] = useState<(typeof services)[0] | null>(null)
 
   return (
-    <section id="services" className="py-20 bg-secondary/30">
+    <section id="services" className="pt-10 pb-20 bg-secondary/30">
       <div className="container">
-        <div className="text-center mb-12">
-          <h2 className="text-balance font-bold text-3xl md:text-4xl mb-4 text-primary">Our Services</h2>
+        <div className="text-center mb-8">
+          <h2 className="text-balance font-bold text-3xl md:text-4xl mb-3 text-primary">Our Services</h2>
           <p className="text-pretty text-lg text-foreground/70 max-w-2xl mx-auto">
             Comprehensive metal fabrication and CNC solutions for industrial and commercial applications
           </p>
@@ -174,8 +176,21 @@ export function ServicesSection() {
                         className="object-cover"
                       />
                     </div>
-                    <div className="p-4 bg-white">
+                    <div className="p-4 bg-white space-y-3">
                       <h4 className="font-semibold text-foreground">{project.title}</h4>
+                      <Button asChild className="bg-amber-400 text-black hover:bg-amber-500 font-semibold rounded-full">
+                        <Link
+                          href={{
+                            pathname: "/contact",
+                            query: {
+                              service: selectedService.title,
+                              message: `Project: ${project.title} — Please provide a quote.`,
+                            },
+                          }}
+                        >
+                          Request for a quote
+                        </Link>
+                      </Button>
                     </div>
                   </div>
                 ))}

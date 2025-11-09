@@ -17,7 +17,7 @@ export function HeroSection() {
         </div>
 
         {/* Content over background */}
-        <div className="container relative z-10 py-20 lg:py-28">
+        <div className="container relative z-10 pt-14 pb-20 lg:pt-20 lg:pb-24">
           <div className="max-w-3xl">
             <h1 className="text-balance font-bold text-5xl md:text-6xl lg:text-7xl text-white mb-6 tracking-tight">
               Telecom masts, Metal Fabrication & CNC Solutions

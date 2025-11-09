@@ -35,10 +35,10 @@ const projects = [
 
 export function PortfolioSection() {
   return (
-    <section id="portfolio" className="py-20 bg-white">
+    <section id="portfolio" className="pt-10 pb-20 bg-white">
       <div className="container">
-        <div className="text-center mb-12">
-          <h2 className="text-balance font-bold text-3xl md:text-4xl mb-4 text-primary">Projects & Portfolio</h2>
+        <div className="text-center mb-8">
+          <h2 className="text-balance font-bold text-3xl md:text-4xl mb-3 text-primary">Projects & Portfolio</h2>
           <p className="text-pretty text-lg text-foreground/70 max-w-2xl mx-auto">
             Real results from real projects. See the quality and precision we deliver.
           </p>

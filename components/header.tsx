@@ -3,21 +3,21 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
-import { Menu, X } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Menu } from "lucide-react"
 import { useState } from "react"
 
 export function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
+  const [open, setOpen] = useState(false)
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-white/80 backdrop-blur-md shadow-sm">
-      <div className="container flex h-20 items-center justify-between">
-        <Link href="/" className="flex items-center gap-3">
+      <div className="container flex h-20 items-center justify-between gap-3">
+        <Link href="/" className="flex items-center gap-3 min-w-0">
           <Image
             src="/images/Peng-logo.jpg"
             alt="Peng Metal Works Limited"
-            width={600}
-            height={600}
+            width={1000}
+            height={1000}
             className="h-14 w-14 object-contain"
           />
           <div className="hidden sm:block">
@@ -26,13 +26,13 @@ export function Header() {
           </div>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
+        {/* Always-visible Navigation */}
+        <nav className="hidden md:flex items-center gap-6 text-sm overflow-x-auto whitespace-nowrap px-1">
           <Link href="/" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">
             Home
           </Link>
           <Link href="/about" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">
-            About
+            About Us
           </Link>
           <Link
             href="/services"
@@ -52,69 +52,41 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Button asChild className="hidden sm:flex bg-accent text-accent-foreground hover:bg-accent/90 font-semibold">
-            <Link href="/contact">Request Quotation</Link>
-          </Button>
-
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-foreground hover:text-primary transition-colors"
-            aria-label="Toggle menu"
+          {/* Mobile slide-out menu */}
+          <div className="md:hidden">
+            <Sheet open={open} onOpenChange={setOpen}>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="icon" className="h-10 w-10" onClick={() => setOpen(true)}>
+                  <Menu className="h-5 w-5" />
+                  <span className="sr-only">Open menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-64">
+                <div className="flex h-full flex-col">
+                  <nav className="mt-4 flex flex-col items-center text-center">
+                    <Link href="/" onClick={() => setOpen(false)} className="block w-full px-3 py-3 text-base font-medium text-foreground/90 hover:text-primary border-b-2 border-amber-400">Home</Link>
+                    <Link href="/about" onClick={() => setOpen(false)} className="block w-full px-3 py-3 text-base font-medium text-foreground/90 hover:text-primary border-b-2 border-amber-400">About Us</Link>
+                    <Link href="/services" onClick={() => setOpen(false)} className="block w-full px-3 py-3 text-base font-medium text-foreground/90 hover:text-primary border-b-2 border-amber-400">Services</Link>
+                    <Link href="/projects" onClick={() => setOpen(false)} className="block w-full px-3 py-3 text-base font-medium text-foreground/90 hover:text-primary border-b-2 border-amber-400">Projects</Link>
+                    <Link href="/contact" onClick={() => setOpen(false)} className="block w-full px-3 py-3 text-base font-medium text-foreground/90 hover:text-primary border-b-2 border-amber-400">Contact</Link>
+                    <div className="w-full px-3 pt-3">
+                      <Button asChild className="w-full bg-amber-400 text-black hover:bg-amber-500 font-semibold rounded-full" onClick={() => setOpen(false)}>
+                        <Link href="/contact">Request a Quote</Link>
+                      </Button>
+                    </div>
+                  </nav>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+          <Button
+            asChild
+            className="bg-amber-400 text-black hover:bg-amber-500 font-semibold text-sm md:text-base px-4 md:px-5 py-1.5 md:py-2 rounded-full shadow"
           >
-            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+            <Link href="/contact">Request a Quote</Link>
+          </Button>
         </div>
       </div>
-
-      {mobileMenuOpen && (
-        <div className="md:hidden border-t border-border bg-white/95 backdrop-blur-md">
-          <nav className="container py-4 flex flex-col gap-4">
-            <Link
-              href="/"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-base font-medium text-foreground/80 hover:text-primary transition-colors py-2"
-            >
-              Home
-            </Link>
-            <Link
-              href="/about"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-base font-medium text-foreground/80 hover:text-primary transition-colors py-2"
-            >
-              About
-            </Link>
-            <Link
-              href="/services"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-base font-medium text-foreground/80 hover:text-primary transition-colors py-2"
-            >
-              Services
-            </Link>
-            <Link
-              href="/projects"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-base font-medium text-foreground/80 hover:text-primary transition-colors py-2"
-            >
-              Projects
-            </Link>
-            <Link
-              href="/contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-base font-medium text-foreground/80 hover:text-primary transition-colors py-2"
-            >
-              Contact
-            </Link>
-            <Button
-              asChild
-              className="sm:hidden bg-accent text-accent-foreground hover:bg-accent/90 font-semibold w-full"
-            >
-              <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
-                Request Quote
-              </Link>
-            </Button>
-          </nav>
-        </div>
-      )}
     </header>
   )
 }
