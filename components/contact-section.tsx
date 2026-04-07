@@ -13,8 +13,19 @@ import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
 
+function WhatsAppIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true" {...props}>
+      <path d="M16.001 3.2c-7.062 0-12.8 5.738-12.8 12.8 0 2.26.592 4.46 1.718 6.398L3.2 28.8l6.566-1.676A12.75 12.75 0 0 0 16 28.8c7.062 0 12.8-5.738 12.8-12.8 0-7.062-5.738-12.8-12.799-12.8zm0 23.2c-2.02 0-4.002-.542-5.736-1.57l-.41-.244-3.89.992 1.014-3.79-.266-.427A10.75 10.75 0 0 1 5.2 16c0-5.956 4.845-10.8 10.801-10.8C21.956 5.2 26.8 10.044 26.8 16c0 5.956-4.844 10.8-10.799 10.8zm6.168-6.044c-.338-.17-2.002-.988-2.312-1.098-.31-.112-.536-.17-.762.168-.226.34-.876 1.098-1.074 1.324-.198.226-.394.254-.732.084-.338-.17-1.426-.526-2.716-1.676-1.004-.894-1.682-1.998-1.88-2.336-.198-.338-.02-.52.15-.688.152-.15.338-.394.508-.592.17-.198.226-.338.338-.564.112-.226.056-.424-.028-.592-.084-.17-.762-1.838-1.044-2.52-.276-.662-.556-.572-.762-.582l-.648-.012c-.226 0-.592.084-.902.424-.31.34-1.184 1.156-1.184 2.82 0 1.664 1.212 3.274 1.38 3.5.17.226 2.386 3.64 5.778 5.104.808.348 1.438.556 1.93.712.812.258 1.55.222 2.134.134.652-.098 2.002-.818 2.284-1.608.282-.79.282-1.466.198-1.608-.084-.142-.31-.226-.648-.394z" />
+    </svg>
+  )
+}
+
 export function ContactSection() {
   const searchParams = useSearchParams()
+  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "254792949288"
+  const whatsappText = process.env.NEXT_PUBLIC_WHATSAPP_TEXT ?? "Hello! I’d like to request a quote."
+  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappText)}`
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -66,14 +77,24 @@ export function ContactSection() {
     }
 
     try {
-      const response = await fetch("/api/contact", {
+      const formId = process.env.NEXT_PUBLIC_FORMSPREE_FORM_ID ?? "movpgnaj"
+      const endpoint = `https://formspree.io/f/${formId}`
+      const data = new FormData()
+      data.append("email", formData.email)
+      data.append("message", formData.message)
+      // extra fields to include in the email
+      data.append("name", formData.name)
+      data.append("phone", formData.phone || "Not provided")
+      data.append("service", formData.service)
+      data.append("_subject", `New website inquiry: ${formData.service}`)
+
+      const response = await fetch(endpoint, {
         method: "POST",
+        body: data,
         headers: {
-          "Content-Type": "application/json",
+          Accept: "application/json",
         },
-        body: JSON.stringify(formData),
       })
-      const responseData = await response.json()
 
       if (response.ok) {
         toast({
@@ -94,7 +115,16 @@ export function ContactSection() {
           message: "",
         })
       } else {
-        throw new Error(responseData.error || "Submission failed")
+        let msg = "Submission failed"
+        try {
+          const data = await response.json()
+          if (data && Array.isArray(data.errors)) {
+            msg = data.errors.map((e: any) => e.message).join(", ") || msg
+          } else if (data && data.message) {
+            msg = data.message
+          }
+        } catch {}
+        throw new Error(msg)
       }
     } catch (error) {
       toast({
@@ -128,10 +158,10 @@ export function ContactSection() {
   }
 
   return (
-    <section id="contact" className="pt-10 pb-20 bg-white">
+    <section id="contact" className="py-16 md:py-24 bg-white">
       {banner && (
         <div
-          className={`${banner.type === "success" ? "bg-green-600" : "bg-red-600"} fixed top-20 left-0 right-0 z-[60] text-white transition-opacity duration-700 ${
+          className={`${banner.type === "success" ? "bg-green-600" : "bg-red-600"} fixed top-16 sm:top-20 left-0 right-0 z-[60] text-white transition-opacity duration-700 ${
             isFading ? "opacity-0" : "opacity-100"
           }`}
           role="status"
@@ -150,14 +180,14 @@ export function ContactSection() {
         </div>
       )}
       <div className="container">
-        <div className="text-center mb-8">
-          <h2 className="text-balance font-bold text-3xl md:text-4xl mb-3 text-primary">Contact Us</h2>
-          <p className="text-pretty text-lg text-foreground/70 max-w-2xl mx-auto">
+        <div className="text-center mb-8 md:mb-10">
+          <h2 className="text-balance font-bold text-2xl sm:text-3xl md:text-4xl mb-2 text-primary">Contact Us</h2>
+          <p className="text-pretty text-base sm:text-lg text-foreground/80 max-w-2xl mx-auto">
             Ready to start your project? Get in touch with us today.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
           <div className="lg:col-span-2">
             <Card className="border-2">
               <CardHeader>
@@ -245,7 +275,21 @@ export function ContactSection() {
                   <Phone className="h-5 w-5 text-primary mt-0.5" />
                   <div>
                     <p className="font-medium">Phone</p>
-                    <p className="text-sm text-muted-foreground">+254 722 291 560</p>
+                    <p className="text-sm text-muted-foreground">+254 792 949 288</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <WhatsAppIcon className="h-5 w-5 mt-0.5 text-[#25D366]" />
+                  <div>
+                    <p className="font-medium">WhatsApp</p>
+                    <a
+                      href={whatsappHref}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-sm text-muted-foreground underline underline-offset-4 hover:text-primary"
+                    >
+                      Chat with us on WhatsApp
+                    </a>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">

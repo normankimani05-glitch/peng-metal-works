@@ -5,8 +5,8 @@ export function Footer() {
   return (
     <footer className="bg-primary text-white relative">
       <div className="absolute top-0 left-0 right-0 h-1 bg-accent" />
-      <div className="container py-12">
-        <div className="grid md:grid-cols-4 gap-8">
+      <div className="container py-10 sm:py-12 md:py-14">
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center gap-3 mb-4">
               <Image
@@ -14,7 +14,7 @@ export function Footer() {
                 alt="PMWL"
                 width={1000}
                 height={1000}
-                className="h-12 w-12 object-contain bg-white rounded p-1"
+                className="h-14 w-14 sm:h-16 sm:w-16 object-contain bg-white rounded p-1"
               />
               <div>
                 <div className="font-bold text-lg">PMWL</div>
@@ -67,9 +67,9 @@ export function Footer() {
           <div>
             <h3 className="font-bold mb-4">Contact</h3>
             <ul className="space-y-2 text-sm opacity-90">
-              <li>+254 722 291 560</li>
+              <li>+254 792 949 288</li>
               <li>Pengmetals@gmail.com</li>
-              <li>Kawangware, Nairobi</li>
+              <li>Kawangware & Zambezi, Nairobi</li>
             </ul>
           </div>
         </div>

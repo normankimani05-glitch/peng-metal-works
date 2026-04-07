@@ -5,6 +5,8 @@ const features = [
   "Quality materials (galvanized & non-galvanized)",
   "On-time delivery & reliable logistics",
   "Custom solutions to match your specifications",
+  "Professionalism",
+  "Customer satisfaction guaranteed",
 ]
 
 export function WhyChooseSection() {

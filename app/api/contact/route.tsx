@@ -20,28 +20,48 @@ export async function POST(request: Request) {
     }
 
     const endpoint = `https://formspree.io/f/${formspreeId}`;
-    const payload = {
-      name: String(name).trim(),
-      email: String(email).trim(),
-      phone: phone || "Not provided",
-      service,
-      message,
-      _subject: `New website inquiry: ${service}`,
-    };
+    // Build URL-encoded body like the Formspree HTML example
+    const form = new URLSearchParams();
+    form.append("email", String(email).trim());
+    form.append("message", String(message));
+    // Include additional fields (these show up in the email)
+    form.append("name", String(name).trim());
+    form.append("phone", phone ? String(phone) : "Not provided");
+    form.append("service", String(service));
+    form.append("_subject", `New website inquiry: ${service}`);
 
     const resp = await fetch(endpoint, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: JSON.stringify(payload),
+      body: form.toString(),
     });
 
     if (!resp.ok) {
-      const text = await resp.text();
-      console.error("Formspree error: ", text);
-      return NextResponse.json({ success: false, error: "Failed to send" }, { status: 500 });
+      let details: any = null;
+      let text = "";
+      const contentType = resp.headers.get("content-type") || "";
+      try {
+        if (contentType.includes("application/json")) {
+          details = await resp.json();
+        } else {
+          text = await resp.text();
+        }
+      } catch (e) {
+        // ignore parse errors
+      }
+      console.error("Formspree error:", details || text || `status ${resp.status}`);
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Failed to send",
+          status: resp.status,
+          details: details || text || null,
+        },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ success: true, message: "Sent!" });
