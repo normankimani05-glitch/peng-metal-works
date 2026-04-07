@@ -9,7 +9,7 @@ import { ContactSection } from "@/components/contact-section"
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
+    <>
       <HeroSection />
       <AboutSection />
       <WhyChooseSection />
@@ -18,6 +18,6 @@ export default function Home() {
       <PortfolioSection />
       <CTASection />
       <ContactSection />
-    </main>
+    </>
   )
 }

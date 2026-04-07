@@ -9,16 +9,16 @@ const brands = [
 
 export function TrustedBySection() {
   return (
-    <section className="py-16 bg-white border-y">
+    <section className="py-12 sm:py-14 md:py-16 bg-white border-y">
       <div className="container">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-balance font-bold text-2xl md:text-3xl text-primary">Trusted By Leading Brands</h2>
+        <div className="max-w-3xl mx-auto text-center px-1">
+          <h2 className="text-balance font-bold text-xl sm:text-2xl md:text-3xl text-primary">Trusted By Leading Brands</h2>
           <p className="text-foreground/80 mt-3">
             Over the years, we’ve had the privilege of working with industry leaders who rely on our precision, quality, and reliability.
           </p>
         </div>
 
-        <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 items-center">
+        <div className="mt-8 sm:mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 items-stretch">
           {brands.map((brand) => (
             <div
               key={brand.name}

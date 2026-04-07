@@ -4,10 +4,10 @@ import { TrustedBySection } from "@/components/trusted-by-section"
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen">
+    <>
       <AboutSection />
       <WhyChooseSection />
       <TrustedBySection />
-    </main>
+    </>
   )
 }

@@ -70,7 +70,7 @@ export function AboutSection() {
           </p>
         </div>
 
-        <div className="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto">
+        <div className="mt-10 sm:mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto">
           <div className="rounded-xl border-2 border-accent bg-white p-5 sm:p-6 text-center shadow-sm">
             <div className="text-4xl md:text-5xl font-extrabold text-primary">
               <Counter end={50} suffix="+" />
@@ -125,7 +125,7 @@ export function AboutSection() {
             </p>
           </div>
 
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
             <div className="rounded-xl border-2 border-accent bg-white p-5 sm:p-6 shadow-sm hover:shadow-lg transition-all">
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground">

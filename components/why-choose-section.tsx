@@ -11,16 +11,18 @@ const features = [
 
 export function WhyChooseSection() {
   return (
-    <section className="py-20 bg-primary text-white relative overflow-hidden">
+    <section className="py-14 sm:py-16 md:py-20 bg-primary text-white relative overflow-hidden">
       <div className="absolute top-0 left-0 right-0 h-1 bg-accent" />
       <div className="container relative">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-balance font-bold text-3xl md:text-4xl mb-12 text-center">Why Choose Us</h2>
-          <div className="grid sm:grid-cols-2 gap-6">
+          <h2 className="text-balance font-bold text-2xl sm:text-3xl md:text-4xl mb-8 md:mb-12 text-center px-1">
+            Why Choose Us
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
             {features.map((feature, index) => (
               <div key={index} className="flex items-start gap-3">
                 <CheckCircle2 className="h-6 w-6 flex-shrink-0 mt-1 text-accent" />
-                <p className="text-lg leading-relaxed">{feature}</p>
+                <p className="text-base sm:text-lg leading-relaxed">{feature}</p>
               </div>
             ))}
           </div>

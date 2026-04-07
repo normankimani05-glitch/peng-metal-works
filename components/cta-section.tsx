@@ -3,10 +3,12 @@ import Link from "next/link"
 
 export function CTASection() {
   return (
-    <section className="py-20 bg-secondary/40">
-      <div className="container text-center">
-        <h2 className="text-balance font-bold text-3xl md:text-4xl mb-6 text-primary">Need a Custom Metal Solution?</h2>
-        <p className="text-pretty text-lg mb-8 max-w-2xl mx-auto leading-relaxed text-foreground/80">
+    <section className="py-14 sm:py-16 md:py-20 bg-secondary/40">
+      <div className="container text-center px-1">
+        <h2 className="text-balance font-bold text-2xl sm:text-3xl md:text-4xl mb-5 sm:mb-6 text-primary">
+          Need a Custom Metal Solution?
+        </h2>
+        <p className="text-pretty text-base sm:text-lg mb-8 max-w-2xl mx-auto leading-relaxed text-foreground/80">
           Get in touch with our team to discuss your project requirements and receive a detailed quote.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">

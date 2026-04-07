@@ -22,7 +22,7 @@ export function HeroSection() {
             <h1 className="text-balance font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white mb-5 sm:mb-6 tracking-tight leading-[1.05]">
               Telecom Masts, Metal Fabrication & CNC Solutions
             </h1>
-            <p className="text-pretty text-base sm:text-lg md:text-xl text-white/90 mb-7 sm:mb-8 leading-relaxed max-w-prose">
+            <p className="text-pretty text-base sm:text-lg md:text-xl text-white/90 mb-7 sm:mb-8 leading-relaxed max-w-full sm:max-w-prose">
               From custom mast creation to industrial-grade CNC cutting, we deliver strength and accuracy that lasts.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">

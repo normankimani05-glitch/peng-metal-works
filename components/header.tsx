@@ -53,7 +53,7 @@ export function Header() {
 
         <div className="flex items-center gap-3">
           {/* Mobile slide-out menu */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon" className="h-10 w-10" onClick={() => setOpen(true)}>
@@ -81,7 +81,7 @@ export function Header() {
           </div>
           <Button
             asChild
-            className="bg-amber-400 text-black hover:bg-amber-500 font-semibold text-sm md:text-base px-3 sm:px-4 md:px-5 py-2 rounded-full shadow"
+            className="bg-amber-400 text-black hover:bg-amber-500 font-semibold text-sm lg:text-base px-3 sm:px-4 lg:px-5 py-2 rounded-full shadow"
           >
             <Link href="/contact">Request a Quote</Link>
           </Button>

@@ -35,16 +35,16 @@ const projects = [
 
 export function PortfolioSection() {
   return (
-    <section id="portfolio" className="pt-10 pb-20 bg-white">
+    <section id="portfolio" className="py-14 sm:py-16 md:py-24 bg-white">
       <div className="container">
-        <div className="text-center mb-8">
-          <h2 className="text-balance font-bold text-3xl md:text-4xl mb-3 text-primary">Projects & Portfolio</h2>
-          <p className="text-pretty text-lg text-foreground/70 max-w-2xl mx-auto">
+        <div className="text-center mb-8 px-1">
+          <h2 className="text-balance font-bold text-2xl sm:text-3xl md:text-4xl mb-3 text-primary">Projects & Portfolio</h2>
+          <p className="text-pretty text-base sm:text-lg text-foreground/70 max-w-2xl mx-auto">
             Real results from real projects. See the quality and precision we deliver.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6">
           {projects.map((project, index) => (
             <Card
               key={index}

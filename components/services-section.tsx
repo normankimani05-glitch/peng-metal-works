@@ -108,16 +108,16 @@ export function ServicesSection() {
   const [selectedService, setSelectedService] = useState<(typeof services)[0] | null>(null)
 
   return (
-    <section id="services" className="pt-10 pb-20 bg-secondary/30">
+    <section id="services" className="py-14 sm:py-16 md:py-24 bg-secondary/30">
       <div className="container">
-        <div className="text-center mb-8">
-          <h2 className="text-balance font-bold text-3xl md:text-4xl mb-3 text-primary">Our Services</h2>
-          <p className="text-pretty text-lg text-foreground/70 max-w-2xl mx-auto">
+        <div className="text-center mb-8 px-1">
+          <h2 className="text-balance font-bold text-2xl sm:text-3xl md:text-4xl mb-3 text-primary">Our Services</h2>
+          <p className="text-pretty text-base sm:text-lg text-foreground/70 max-w-2xl mx-auto">
             Comprehensive metal fabrication and CNC solutions for industrial and commercial applications
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 max-w-5xl mx-auto">
           {services.map((service, index) => (
             <Card
               key={index}
