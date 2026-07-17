@@ -21,15 +21,39 @@ const services = [
       },
       {
         title: "CNC Cut Metal Parts",
-        image: "/precision-cnc-cut-metal-brackets-and-parts.jpg",
+        image: "/cnc 1.jpeg",
       },
       {
-        title: "Custom L-Shape Fabrication",
-        image: "/custom-l-shape-metal-fabrication-welding.jpg",
+        title: "Custom 1m L-Shape Fabrication",
+        image: "/L-shapes.jpeg",
       },
       {
-        title: "Industrial Metal Framework",
-        image: "/industrial-metal-framework-structure.jpg",
+        title: "Custom 1m V-Shape Fabrication",
+        image: "/V-shape 1.jpeg",
+      },
+      {
+        title: "Custom Bracket Fabrication",
+        image: "/Brackets 1.jpeg",
+      },
+      {
+        title: "Custom T-Bracket Fabrication",
+        image: "/T-bracket 1.jpeg",
+      },
+      {
+        title: "Custom Corner Bracket Fabrication",
+        image: "/WhatsApp Image 2026-07-05 at 11.20.05 PM (2).jpeg",
+      },
+      {
+        title: "Single Arms",
+        image: "/single arm 1.jpeg",
+      },
+      {
+        title: "Double Arms",
+        image: "/placeholder.svg?height=400&width=600",
+      },
+      {
+        title: "Metal Carbinate Framework",
+        image: "/carbinate with layers.jpeg",
       },
     ],
   },
@@ -40,19 +64,15 @@ const services = [
     projects: [
       {
         title: "Metal Window Frames",
-        image: "/metal-window-frames-fabrication.jpg",
+        image: "/windows.jpeg",
       },
       {
         title: "Steel Door Installation",
-        image: "/industrial-steel-door-fabrication.jpg",
+        image: "/doors.jpeg",
       },
       {
         title: "Structural Steel Framework",
         image: "/building-structural-steel-framework.jpg",
-      },
-      {
-        title: "Custom Metal Fittings",
-        image: "/custom-metal-fittings-and-fixtures.jpg",
       },
     ],
   },
@@ -62,20 +82,24 @@ const services = [
     description: "Booms, racks, brackets, and other custom metal projects tailored to your specifications",
     projects: [
       {
-        title: "Custom Metal Booms",
-        image: "/custom-metal-boom-fabrication.jpg",
+        title: "Custom Metal Anchors",
+        image: "/anchors 1.jpeg",
       },
       {
-        title: "Industrial Racks",
-        image: "/industrial-metal-racks-storage.jpg",
+        title: "Custom Metal Bases",
+        image: "/base.jpeg",
       },
       {
-        title: "Heavy-Duty Brackets",
-        image: "/heavy-duty-metal-brackets-welding.jpg",
+        title: "Custom Metal Cabinets",
+        image: "/cabinate 2.jpeg",
+      },
+      {
+        title: "Custom Metal Cabinates",
+        image: "/carbinate.jpeg",
       },
       {
         title: "Custom Metal Solutions",
-        image: "/custom-metal-fabrication-projects.jpg",
+        image: "/long bolts1.jpeg",
       },
     ],
   },
@@ -86,15 +110,15 @@ const services = [
     projects: [
       {
         title: "Equipment Transport",
-        image: "/heavy-equipment-transport-truck.jpg",
+        image: "/placeholder.svg?height=400&width=600",
       },
       {
         title: "Metal Products Delivery",
-        image: "/metal-products-delivery-logistics.jpg",
+        image: "/placeholder.svg?height=400&width=600",
       },
       {
         title: "Specialized Transport",
-        image: "/specialized-industrial-equipment-transport.jpg",
+        image: "/placeholder.svg?height=400&width=600",
       },
       {
         title: "On-Site Delivery",
@@ -106,18 +130,19 @@ const services = [
 
 export function ServicesSection() {
   const [selectedService, setSelectedService] = useState<(typeof services)[0] | null>(null)
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
   return (
-    <section id="services" className="py-14 sm:py-16 md:py-24 bg-secondary/30">
+    <section id="services" className="pt-10 pb-20 bg-secondary/30">
       <div className="container">
-        <div className="text-center mb-8 px-1">
-          <h2 className="text-balance font-bold text-2xl sm:text-3xl md:text-4xl mb-3 text-primary">Our Services</h2>
-          <p className="text-pretty text-base sm:text-lg text-foreground/70 max-w-2xl mx-auto">
+        <div className="text-center mb-8">
+          <h2 className="text-balance font-bold text-3xl md:text-4xl mb-3 text-primary">Our Services</h2>
+          <p className="text-pretty text-lg text-foreground/70 max-w-2xl mx-auto">
             Comprehensive metal fabrication and CNC solutions for industrial and commercial applications
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {services.map((service, index) => (
             <Card
               key={index}
@@ -168,7 +193,7 @@ export function ServicesSection() {
                     key={idx}
                     className="group relative overflow-hidden rounded-lg border-2 border-border hover:border-accent transition-colors"
                   >
-                    <div className="aspect-video relative">
+                    <div className="aspect-[5/4] relative cursor-pointer" onClick={() => setSelectedImage(project.image)}>
                       <Image
                         src={project.image || "/placeholder.svg"}
                         alt={project.title}
@@ -197,6 +222,22 @@ export function ServicesSection() {
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
+        <DialogContent className="max-w-5xl max-h-[90vh] overflow-hidden p-0">
+          <DialogHeader className="sr-only">
+            <DialogTitle>Image Preview</DialogTitle>
+          </DialogHeader>
+          <div className="relative w-full h-[85vh]">
+            <Image
+              src={selectedImage || "/placeholder.svg"}
+              alt="Enlarged view"
+              fill
+              className="object-contain"
+            />
+          </div>
         </DialogContent>
       </Dialog>
     </section>

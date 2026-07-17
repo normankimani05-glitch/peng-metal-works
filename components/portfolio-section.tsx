@@ -7,9 +7,9 @@ const projects = [
     image: "/tall-galvanized-steel-telecom-mast-tower-against-b.jpg",
   },
   {
-    title: "CNC Custom Brackets",
+    title: "CNC Custom",
     location: "Industrial Project, 2024",
-    image: "/precision-cnc-cut-metal-brackets-and-l-shapes-on-w.jpg",
+    image: "/cnc 1.jpeg",
   },
   {
     title: "Structural Steel Framework",
@@ -20,16 +20,6 @@ const projects = [
     title: "Custom Metal Doors",
     location: "Warehouse Project, 2023",
     image: "/industrial-metal-door-fabrication.jpg",
-  },
-  {
-    title: "Heavy Equipment Boom",
-    location: "Mining Sector, 2024",
-    image: "/heavy-duty-metal-boom-equipment.jpg",
-  },
-  {
-    title: "Industrial Racks",
-    location: "Storage Facility, 2023",
-    image: "/metal-storage-racks-industrial-warehouse.jpg",
   },
 ]
 
